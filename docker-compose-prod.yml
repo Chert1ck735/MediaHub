@@ -1,0 +1,42 @@
+x-mediahub-backend:
+  &mediahub-backend
+    image: repos.krskcit.ru:5050/rkc/op/mediahub:backend_latest
+    env_file:
+      - .env.docker
+    extra_hosts:
+    - "sentry.krskcit.ru:192.168.161.174"
+
+services:
+  migrations:
+    <<: *mediahub-backend
+    container_name: mediahub_migrations
+    command: ["alembic", "upgrade", "head"]
+    restart: "no"
+
+  backend:
+    <<: *mediahub-backend
+    container_name: mediahub_backend
+    depends_on:
+      migrations:
+        condition: service_completed_successfully
+    volumes:
+      - ./data:/app/data
+    restart: unless-stopped
+
+  frontend:
+    image: repos.krskcit.ru:5050/rkc/op/mediahub:frontend_latest
+    container_name: mediahub_frontend
+    env_file:
+    - .env.frontend
+    environment:
+      VITE_BACKEND_TARGET: http://backend:8000
+    ports:
+      - "5173:5173"
+    depends_on:
+      - backend
+    restart: unless-stopped
+
+networks:
+  default:
+    external: true
+    name: docker_mediahub_172_16_1

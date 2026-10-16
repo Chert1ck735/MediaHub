@@ -1,0 +1,256 @@
+# Virtual Enviroment
+test-results/
+playwright-report/
+.venv
+venv
+
+# Исходный тяжёлый geojson границ МО (6+ МБ) — в проект бандлится упрощённый
+# frontend/src/app/municipalityBorders.ts, сырьё в git не нужно.
+GEOJSON_MO_border.geojson
+
+# ============================
+# Virtual Environment
+# ============================
+.venv/
+venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+
+# ============================
+# LLM
+# ============================
+*.gguf
+models
+
+#Enviroment
+# ============================
+# Environment variables
+# ============================
+.env.*
+.env
+!.env.example
+*.env
+*.session
+*.session-journal
+*.session-wal
+*.session-shm
+*.key
+*.p12
+*.pfx
+
+# Артефакты данных/выгрузок
+*.zip
+*.xlsx
+*.xls
+*.xlsm
+~$*.xls*
+
+#IDE
+.idea
+
+# ============================
+# IDE / Editors
+# ============================
+.idea/
+.vscode/
+*.swp
+*.swo
+*.sublime-project
+*.sublime-workspace
+.kodik/
+.cursor/
+
+# ============================
+# Python
+# ============================
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.pyd
+*.pyo
+
+# ============================
+# Distribution / Packaging
+# ============================
+build/
+dist/
+develop-eggs/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+
+# Whitelist для фронтового исходного кода. Правило `lib/` выше — это
+# Python-артефакты (см. соседние строки develop-eggs/, .eggs/, wheels/);
+# у фронта src/lib/ — обычная папка для HTTP-клиента, утилит и т.п.,
+# и она должна попадать в репу.
+!frontend/src/lib/
+!frontend/src/lib/**
+*.egg-info/
+*.egg
+MANIFEST
+pip-wheel-metadata/
+pip-log.txt
+pip-delete-this-directory.txt
+
+# ============================
+# Tests / Coverage
+# ============================
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache/
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+.pytest_cache/
+cover/
+
+# ============================
+# Type checkers / Linters
+# ============================
+.mypy_cache/
+.dmypy.json
+dmypy.json
+.pyre/
+.pytype/
+.ruff_cache/
+
+# ============================
+# Jupyter / IPython
+# ============================
+.ipynb_checkpoints/
+profile_default/
+ipython_config.py
+
+# ============================
+# Frameworks
+# ============================
+# Django
+local_settings.py
+db.sqlite3
+db.sqlite3-journal
+
+# Flask
+instance/
+.webassets-cache
+
+# Scrapy
+.scrapy
+
+# Celery
+celerybeat-schedule
+celerybeat.pid
+
+# ============================
+# Logs / Databases
+# ============================
+*.log
+logs/
+*.sql
+*.sqlite
+*.sqlite3
+*.db
+
+# ============================
+# OS
+# ============================
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# ============================
+# ML / Data
+# ============================
+*.ckpt
+*.pt
+*.pth
+*.h5
+*.hdf5
+*.onnx
+*.pkl
+*.pickle
+*.joblib
+*.npy
+*.npz
+*.parquet
+mlruns/
+wandb/
+mlflow_runs/
+runs/
+checkpoints/
+data/raw/
+data/interim/
+data/processed/
+data/eval/
+!data/.gitkeep
+
+# ============================
+# Node (на случай фронта/инструментов)
+# ============================
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+*.tsbuildinfo
+
+# ============================
+# Misc
+# ============================
+*.bak
+*.bak_*
+*.tmp
+
+# Локальные временные dev/test скрипты в корне (_inspect_*, _test_*, _run_*, …)
+/_*.py
+
+# Локальные бэкапы БД от tools/backup_db.{bat,py}
+backups/
+
+# ============================
+# Data
+# ============================
+*.csv
+# Рантайм-кэш геокодера (pain_map_service) и прочие локальные данные.
+# Справочник объектов Енисей-ГИС — исключение: он часть поставки, собирается
+# скриптом tools/build_object_directory и нужен приложению на сервере.
+data/*
+!data/object_directory.json
+!data/settlement_municipality.json
+charts/*
+!charts/.gitkeep
+generated_reports/*
+!generated_reports/.gitkeep
+
+# Vite cache/build artifacts
+.vite/
+frontend/.vite/
+frontend/dist/
+frontend/dist-*/
+frontend/vite.config.js
+frontend/vite.config.d.ts
+
+# Локальные настройки ассистентов и служебные файлы старой серверной поставки
+.agents/
+.codex/
+.aws/
+.qwen/
+/before.json
+/g.py
+/REMOVED_FILES.txt
+/Новый текстовый документ.txt

@@ -1,0 +1,398 @@
+/* Responsive shell rules live last so page layouts react to the content area,
+   not to the full viewport hidden behind the fixed sidebar. */
+
+.page {
+  --app-sidebar-width: 224px;
+  --app-content-gutter: 24px;
+}
+
+.page.sidebar-collapsed {
+  --app-sidebar-width: 64px;
+}
+
+.app-sidebar {
+  width: var(--app-sidebar-width);
+}
+
+.app-sidebar-logo,
+.app-sidebar-item,
+.app-sidebar-toggle {
+  transition:
+    gap 0.18s ease,
+    padding 0.18s ease,
+    background 0.15s ease,
+    color 0.15s ease;
+}
+
+.app-sidebar-logo-text,
+.app-sidebar-label {
+  display: inline-block;
+  max-width: 150px;
+  opacity: 1;
+  overflow: hidden;
+  text-overflow: clip;
+  transform: translateX(0);
+  transition:
+    max-width 0.18s ease,
+    opacity 0.12s ease,
+    transform 0.18s ease;
+  vertical-align: middle;
+}
+
+.app-sidebar-footer {
+  max-height: 220px;
+  overflow: hidden;
+  transition:
+    max-height 0.18s ease,
+    opacity 0.12s ease,
+    padding-top 0.18s ease,
+    border-color 0.18s ease;
+}
+
+.page.sidebar-collapsed .app-sidebar-logo,
+.page.sidebar-collapsed .app-sidebar-item,
+.page.sidebar-collapsed .app-sidebar-toggle {
+  gap: 0;
+}
+
+.page.sidebar-collapsed .app-sidebar-logo-text,
+.page.sidebar-collapsed .app-sidebar-label {
+  display: inline-block;
+  max-width: 0;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateX(-6px);
+}
+
+.page.sidebar-collapsed .app-sidebar-top {
+  flex-direction: row;
+  gap: 8px;
+}
+
+.page.sidebar-collapsed .app-sidebar-item,
+.page.sidebar-collapsed .app-sidebar-toggle {
+  justify-content: flex-start;
+  padding: 9px 10px;
+}
+
+.page.sidebar-collapsed .app-sidebar-footer {
+  display: flex;
+  max-height: 0;
+  opacity: 0;
+  padding-top: 0;
+  border-top-color: transparent;
+  pointer-events: none;
+}
+
+.app-main-col {
+  width: calc(100% - var(--app-sidebar-width));
+  margin-left: var(--app-sidebar-width);
+  min-width: 0;
+  container-type: inline-size;
+  transition:
+    margin-left 0.18s ease,
+    width 0.18s ease;
+  will-change: margin-left, width;
+}
+
+.page.sidebar-collapsed .app-main-col {
+  width: calc(100% - var(--app-sidebar-width));
+  margin-left: var(--app-sidebar-width);
+}
+
+.app-main-col .container {
+  width: min(1180px, calc(100% - (var(--app-content-gutter) * 2)));
+  max-width: 100%;
+}
+
+.app-main-col :is(.content-page, .workflow-page, .analytics-hero, .analytics-panel, .analytics-detail-card, .calendar, .card, .showcase-content, .home-dashboard) {
+  min-width: 0;
+}
+
+.app-main-col :is(.content-card, .workflow-list-card, .workflow-panel, .analytics-pain-card, .analytics-detail-card, .analytics-panel, .analytics-chart-card, .home-list-row, .home-mini-panel, .day-cell, .week-col) {
+  min-width: 0;
+}
+
+.app-main-col :is(.content-card-text, .workflow-snippet, .analytics-preview, .analytics-post-top-card p, .home-list-row p, .home-mini-panel p, .day-event p) {
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+.analytics-heatmap-card {
+  min-width: 0;
+  overflow-x: auto;
+}
+
+.analytics-heatmap {
+  min-width: 560px;
+}
+
+@container (max-width: 1120px) {
+  .workflow-grid-signals,
+  .workflow-grid-strategies,
+  .workflow-grid-approval,
+  .strategy-board,
+  .workflow-kpi-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Боли и разбор темы читаются рядом: слева список, справа подпроблемы и
+   примеры. С общим порогом в 1120px рабочая область с боковой панелью не
+   проходила по ширине, и всё выстраивалось в одну колонку. */
+@container (max-width: 860px) {
+  .analytics-pains-workspace {
+    grid-template-columns: 1fr;
+  }
+}
+
+@container (max-width: 980px) {
+  .analytics-kpis,
+  .analytics-overview-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .analytics-layout,
+  .analytics-detail-grid,
+  .analytics-chart-grid,
+  .analytics-chart-grid-top,
+  .analytics-insight-grid,
+  .calendar-layout,
+  .home-columns,
+  .home-list-row {
+    grid-template-columns: 1fr;
+  }
+
+  .analytics-report-toolbar,
+  .analytics-addon-head,
+  .workflow-panel-head,
+  .workflow-toolbar,
+  .calendar-nav,
+  .calendar-actions {
+    align-items: stretch;
+  }
+
+  .analytics-report-toolbar,
+  .analytics-addon-head,
+  .workflow-panel-head {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .workflow-toolbar {
+    flex-wrap: wrap;
+  }
+
+  .calendar-legend {
+    position: static;
+  }
+
+  .workflow-search,
+  .workflow-sort-select {
+    width: 100%;
+  }
+}
+
+@container (max-width: 760px) {
+  .analytics-kpis,
+  .analytics-overview-grid,
+  .workflow-kpi-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .analytics-report-toolbar .report-head-actions {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  }
+
+  .analytics-report-toolbar .analytics-platform-select {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  .analytics-report-toolbar .analytics-period-select {
+    grid-column: 2;
+    grid-row: 1;
+  }
+
+  .analytics-report-toolbar .analytics-source-picker {
+    grid-column: 1 / -1;
+    grid-row: 2;
+  }
+
+  .month-grid,
+  .week-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .calendar-arrow-btn {
+    min-width: 44px;
+  }
+}
+
+@container (max-width: 560px) {
+  .main {
+    padding-top: 18px;
+    padding-bottom: 36px;
+  }
+
+  .card,
+  .calendar,
+  .showcase-content {
+    padding: 14px;
+  }
+
+  .content-card,
+  .workflow-panel,
+  .workflow-list-card,
+  .workflow-import-card,
+  .analytics-empty,
+  .analytics-hero,
+  .analytics-detail-card,
+  .analytics-panel,
+  .analytics-chart-card,
+  .analytics-report-toolbar,
+  .analytics-addon-section {
+    padding: 12px;
+  }
+
+  .month-grid,
+  .week-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .day-cell {
+    min-height: 88px;
+  }
+
+  .analytics-panel-head,
+  .analytics-events-head,
+  .analytics-case-head,
+  .analytics-insight-row,
+  .analytics-chart-meta,
+  .home-panel-head {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .analytics-report-toolbar .report-head-actions {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .analytics-report-toolbar .analytics-platform-select,
+  .analytics-report-toolbar .analytics-source-picker,
+  .analytics-report-toolbar .analytics-period-select {
+    grid-column: 1;
+    grid-row: auto;
+  }
+
+  .analytics-insight-row strong,
+  .analytics-chart-meta strong {
+    text-align: left;
+  }
+
+  .severity-pill,
+  .home-list-row span {
+    white-space: normal;
+  }
+}
+
+@media (max-width: 860px) {
+  .page {
+    --app-sidebar-width: 64px;
+  }
+
+  .app-sidebar-logo,
+  .app-sidebar-item,
+  .app-sidebar-toggle {
+    gap: 0;
+  }
+
+  .app-sidebar-logo-text,
+  .app-sidebar-label {
+    max-width: 0;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateX(-6px);
+  }
+
+  .app-sidebar-top {
+    flex-direction: row;
+    gap: 8px;
+  }
+
+  .app-sidebar-item,
+  .app-sidebar-toggle {
+    justify-content: flex-start;
+    padding: 9px 10px;
+  }
+
+  .app-sidebar-footer {
+    display: flex;
+    max-height: 0;
+    opacity: 0;
+    padding-top: 0;
+    border-top-color: transparent;
+    pointer-events: none;
+  }
+}
+
+@media (max-width: 640px) {
+  .page {
+    --app-sidebar-width: 56px;
+    --app-content-gutter: 12px;
+  }
+
+  .page.sidebar-collapsed {
+    --app-sidebar-width: 56px;
+  }
+
+  .app-sidebar {
+    width: var(--app-sidebar-width);
+    padding: 12px 8px;
+  }
+
+  .page.sidebar-collapsed .app-sidebar {
+    width: var(--app-sidebar-width);
+  }
+
+  .app-sidebar-logo-mark {
+    width: 34px;
+    height: 34px;
+    border-radius: 9px;
+    font-size: 21px;
+  }
+
+  .app-sidebar-item,
+  .app-sidebar-toggle {
+    padding: 9px 0;
+  }
+
+  .app-main-col {
+    width: calc(100% - var(--app-sidebar-width));
+  }
+}
+
+@media (max-width: 420px) {
+  .page {
+    --app-sidebar-width: 50px;
+    --app-content-gutter: 10px;
+  }
+
+  .page.sidebar-collapsed {
+    --app-sidebar-width: 50px;
+  }
+
+  .app-sidebar {
+    padding-inline: 6px;
+  }
+
+  .app-sidebar-logo-mark {
+    width: 32px;
+    height: 32px;
+    font-size: 20px;
+  }
+
+  .app-main-col .btn {
+    width: 100%;
+  }
+}

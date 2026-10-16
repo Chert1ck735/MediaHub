@@ -1,0 +1,440 @@
+/* Страница «Настройки»: подразделы слева, содержимое справа. */
+
+.settings-layout {
+  display: grid;
+  grid-template-columns: 220px minmax(0, 1fr);
+  gap: 28px;
+  align-items: start;
+}
+
+.settings-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  position: sticky;
+  top: 16px;
+}
+.settings-nav-title {
+  padding: 0 10px 8px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+}
+.settings-nav-link {
+  padding: 8px 10px;
+  border-radius: var(--radius-control);
+  color: var(--text-secondary);
+  font-size: 14px;
+  text-decoration: none;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+.settings-nav-link:hover {
+  background: var(--surface-hover);
+  color: var(--text-primary);
+}
+.settings-nav-link.active {
+  background: var(--info-bg);
+  color: var(--accent-ui);
+  font-weight: 600;
+}
+
+.settings-content {
+  min-width: 0;
+}
+
+@media (max-width: 860px) {
+  .settings-layout {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 16px;
+  }
+  .settings-nav {
+    position: static;
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+  .settings-nav-title {
+    display: none;
+  }
+}
+
+/* Содержимое подразделов: аккаунт, организации, настройки аналитики. */
+
+.settings-defs {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 14px;
+  margin: 0;
+}
+.settings-defs dt {
+  font-size: 11.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--text-faint);
+}
+.settings-defs dd {
+  margin: 4px 0 0;
+  font-size: 14px;
+  color: var(--text-primary);
+  overflow-wrap: anywhere;
+}
+.settings-mono {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 12.5px !important;
+}
+
+.settings-account-actions {
+  margin-top: 18px;
+  padding-top: 16px;
+  border-top: 1px solid var(--border-soft);
+}
+
+.settings-password-form {
+  margin-top: 18px;
+  padding-top: 16px;
+  border-top: 1px solid var(--border-soft);
+}
+
+.settings-password-form h4 {
+  margin: 0 0 12px;
+  font-size: 15px;
+}
+
+.settings-password-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 12px;
+}
+
+.settings-account-org-publics {
+  margin-top: 18px;
+  padding-top: 16px;
+  border-top: 1px solid var(--border-soft);
+}
+
+.settings-account-org-publics > h4 {
+  margin: 0 0 12px;
+  font-size: 15px;
+}
+
+.settings-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 10px;
+  margin-bottom: 1rem;
+}
+.settings-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 12px;
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-control);
+}
+.settings-stat-value {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+.settings-stat-label {
+  font-size: 11.5px;
+  color: var(--text-faint);
+}
+
+.settings-address-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 12px 0 18px;
+}
+
+.settings-job-progress {
+  margin: 0 0 18px;
+  padding: 12px 14px;
+  border: 1px solid rgba(120, 160, 255, 0.25);
+  border-radius: var(--radius-control);
+  background: rgba(120, 160, 255, 0.08);
+}
+
+.settings-job-progress-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: 13px;
+}
+
+.settings-job-progress-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.settings-job-progress-bar {
+  height: 6px;
+  margin-top: 8px;
+  overflow: hidden;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.settings-job-progress-fill {
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #6aa9ff, #b58dff);
+  transition: width 0.4s ease;
+}
+
+.settings-geo-keys {
+  display: grid;
+  gap: 8px;
+  margin: 14px 0;
+  padding: 12px 14px;
+  border: 1px solid var(--border-soft);
+  border-radius: 10px;
+}
+
+.settings-geo-keys-head {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: space-between;
+  align-items: baseline;
+  font-size: 0.9rem;
+}
+
+.settings-geo-key {
+  display: grid;
+  grid-template-columns: 72px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.85rem;
+}
+
+.settings-geo-key-name {
+  font-variant-numeric: tabular-nums;
+  opacity: 0.75;
+}
+
+.settings-geo-key-bar {
+  height: 6px;
+  overflow: hidden;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.settings-geo-key-fill {
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #6aa9ff, #b58dff);
+  transition: width 0.4s ease;
+}
+
+.settings-geo-key-fill.blocked {
+  background: rgba(255, 120, 120, 0.55);
+}
+
+.settings-geo-key-value {
+  font-variant-numeric: tabular-nums;
+  opacity: 0.8;
+  white-space: nowrap;
+}
+
+.settings-org-list {
+  display: grid;
+  gap: 0.75rem;
+}
+.settings-org {
+  padding: 12px 14px;
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-control);
+}
+.settings-org h4 {
+  margin: 0;
+  font-size: 15px;
+}
+.settings-org p {
+  margin: 0.35rem 0 0;
+}
+.settings-org-links {
+  list-style: none;
+  margin: 0.6rem 0 0;
+  padding: 0;
+  display: grid;
+  gap: 6px;
+}
+.settings-org-links li {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: 13px;
+}
+.settings-org-links a {
+  color: var(--accent-ui);
+  text-decoration: none;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.settings-org-links a:hover {
+  text-decoration: underline;
+}
+.settings-org-links .muted {
+  flex: 0 0 auto;
+  font-size: 12px;
+}
+
+.settings-toggles {
+  display: grid;
+  gap: 14px;
+  margin-top: 1rem;
+}
+.settings-toggle {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: start;
+  gap: 12px;
+  cursor: pointer;
+}
+.settings-toggle.disabled {
+  cursor: default;
+  opacity: 0.55;
+}
+.settings-toggle .an-switch {
+  margin-top: 2px;
+}
+.settings-toggle-text {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+.settings-toggle-text strong {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+.settings-toggle-text .muted {
+  font-size: 12.5px;
+  line-height: 1.45;
+}
+
+.settings-maintenance {
+  display: grid;
+  gap: 12px;
+  margin-top: 22px;
+  padding-top: 18px;
+  border-top: 1px solid var(--border-soft);
+}
+.settings-maintenance h4 {
+  margin: 0;
+  font-size: 15px;
+  color: var(--text-primary);
+}
+.settings-maintenance p {
+  margin: 0.35rem 0 0;
+}
+.settings-action-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.settings-temporary-tool .btn {
+  width: min(100%, 520px);
+}
+
+.settings-review-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  align-items: flex-start;
+}
+
+.settings-review-total {
+  display: inline-flex;
+  flex-direction: column;
+  gap: 2px;
+  margin: 12px 0 14px;
+  padding: 12px;
+  min-width: 180px;
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-control);
+}
+
+.settings-review-list {
+  display: grid;
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.settings-review-item {
+  display: grid;
+  gap: 10px;
+  padding: 12px;
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-control);
+  background: var(--surface-muted);
+}
+
+.settings-review-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--text-faint);
+}
+
+.settings-review-meta span {
+  padding: 2px 8px;
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-control);
+}
+
+.settings-review-text {
+  margin: 0;
+  color: var(--text-primary);
+  line-height: 1.45;
+}
+
+.settings-review-link {
+  width: fit-content;
+  color: var(--accent-ui);
+  font-size: 13px;
+  text-decoration: none;
+}
+
+.settings-review-link:hover {
+  text-decoration: underline;
+}
+
+.settings-review-form {
+  display: grid;
+  grid-template-columns: minmax(180px, 1.2fr) minmax(160px, 1fr) minmax(180px, 1fr) auto;
+  gap: 10px;
+  align-items: end;
+}
+
+.settings-review-form label {
+  display: grid;
+  gap: 5px;
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+.settings-review-form select,
+.settings-review-form input {
+  width: 100%;
+  min-width: 0;
+}
+
+@media (max-width: 920px) {
+  .settings-review-head {
+    flex-direction: column;
+  }
+
+  .settings-review-form {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

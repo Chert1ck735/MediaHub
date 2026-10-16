@@ -1,0 +1,136 @@
+name: CI
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    # Тесты ходят в реальный PostgreSQL — поднимаем сервис рядом.
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_DB: media_project_test
+          POSTGRES_USER: ci
+          POSTGRES_PASSWORD: ci
+        ports:
+          - 5432:5432
+        # Health-check блокирует CI пока БД не готова принимать соединения.
+        options: >-
+          --health-cmd "pg_isready -U ci -d media_project_test"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+
+    env:
+      DB_NAME: media_project_test
+      DB_USER: ci
+      DB_PASS: ci
+      DB_HOST: localhost
+      DB_PORT: 5432
+      JWT_SECRET: ci-jwt-secret-must-be-long-enough-for-the-startup-validator
+      APP_ENV: dev
+      ACCESS_TOKEN: ""
+      GROUP_ID: 0
+      TEST_DATABASE_URL: postgresql+asyncpg://ci:ci@localhost:5432/media_project_test
+      AUTOPARSE_ENABLED: "false"
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: Install runtime deps
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Install dev deps
+        run: pip install -r requirements-dev.txt
+
+      - name: Compile-check all backend .py (учитывает BOM)
+        run: |
+          python -c "
+          import os, sys
+          fails = []
+          for root, _, files in os.walk('backend'):
+              for f in files:
+                  if not f.endswith('.py'): continue
+                  p = os.path.join(root, f)
+                  try:
+                      compile(open(p, 'rb').read().decode('utf-8-sig'), p, 'exec')
+                  except Exception as e:
+                      fails.append((p, str(e)))
+          for root, _, files in os.walk('alembic'):
+              for f in files:
+                  if not f.endswith('.py'): continue
+                  p = os.path.join(root, f)
+                  try:
+                      compile(open(p, 'rb').read().decode('utf-8-sig'), p, 'exec')
+                  except Exception as e:
+                      fails.append((p, str(e)))
+          if fails:
+              for p, e in fails: print('FAIL', p, '-', e)
+              sys.exit(1)
+          print('OK', 'all .py compile')
+          "
+
+      - name: Apply alembic migrations
+        run: python -m alembic upgrade head
+
+      - name: Create first user (для integration-тестов)
+        run: |
+          python - <<'PY'
+          import asyncio
+          from backend.db import Organization, OrgType, User, UserRole
+          from backend.db.database import async_session_maker
+          from backend.modules.auth.services.password_service import PasswordService
+          async def main():
+              async with async_session_maker() as s:
+                  organization = Organization(name="CI Org", type=OrgType.other)
+                  s.add(organization)
+                  await s.flush()
+                  s.add(User(
+                      first_name="CI", last_name="User", email="ci@example.test",
+                      password_hash=PasswordService().hash_password("ci-password"),
+                      organization_id=organization.id, role=UserRole.admin,
+                  ))
+                  await s.commit()
+          asyncio.run(main())
+          PY
+
+      - name: Pytest
+        run: pytest -v --tb=short
+
+      - name: Schema drift check
+        run: python tools/schema_drift.py --fail-on-drift
+        # На CI drift не ожидается: модели + миграции должны быть синхронны.
+        # Если падает — кто-то поменял модель и не написал миграцию.
+        continue-on-error: true   # пока известно про legacy-orphan'ы в проде,
+                                  # на CI БД с нуля их не будет, но мало ли —
+                                  # warning не блокирует merge. Через релиз
+                                  # переключим в hard fail.
+
+  frontend:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: frontend
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+      - run: npm ci
+      - run: npm run build

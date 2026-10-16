@@ -1,0 +1,123 @@
+.guide-page {
+  display: grid;
+  gap: 20px;
+}
+
+.guide-section {
+  display: grid;
+  gap: 14px;
+}
+
+.guide-section-head h3 {
+  margin: 0 0 4px;
+  font-size: 1.1rem;
+}
+
+.guide-section-head p {
+  margin: 0;
+}
+
+.guide-steps,
+.guide-directory {
+  display: grid;
+  gap: 12px;
+}
+
+.guide-steps {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.guide-directory {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.guide-step,
+.guide-directory-item {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-control);
+  background: var(--surface-card);
+  box-shadow: var(--shadow-card);
+}
+
+.guide-step {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 12px;
+  padding: 14px;
+}
+
+.guide-directory-item {
+  padding: 14px;
+}
+
+.guide-step-number {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 999px;
+  background: var(--accent-ui);
+  color: #ffffff;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.guide-step h4,
+.guide-directory-item h4 {
+  margin: 0 0 6px;
+  font-size: 0.98rem;
+}
+
+.guide-step p,
+.guide-directory-item p {
+  margin: 0;
+  color: var(--text-secondary);
+  line-height: 1.45;
+}
+
+.guide-link {
+  display: inline-flex;
+  margin-top: 10px;
+  color: var(--link);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.guide-link:hover {
+  text-decoration: underline;
+}
+
+.guide-checklist {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.guide-checklist li {
+  position: relative;
+  padding: 12px 14px 12px 36px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-control);
+  background: var(--surface-card);
+  color: var(--text-primary);
+}
+
+.guide-checklist li::before {
+  content: "";
+  position: absolute;
+  left: 14px;
+  top: 17px;
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: var(--accent-ui);
+}
+
+@media (max-width: 980px) {
+  .guide-steps,
+  .guide-directory {
+    grid-template-columns: 1fr;
+  }
+}
